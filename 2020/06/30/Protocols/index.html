@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Protocols&#039; - Hexo</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Hexo"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Hexo"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="[TOC] 网际层ARP协议通常ARP的攻击是只针对内网主机的，可以通过伪造内网ip和欺骗内网主机的目的MAC地址来进行攻击，后者常常被称为ARP欺骗。 解决方法：  交换机配置802.1x协议，需要对用户进行授权和登录。 建立静态ARP协议表（不建议）。  IP协议 容易被监听、窃取：加密传输。 恶意篡改：完整性检测机制。 ip欺骗攻击（即更改source ip）：源地址鉴别机制。 ip分段重组"><meta property="og:type" content="blog"><meta property="og:title" content="Protocols&#039;"><meta property="og:url" content="http://example.com/2020/06/30/Protocols/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="[TOC] 网际层ARP协议通常ARP的攻击是只针对内网主机的，可以通过伪造内网ip和欺骗内网主机的目的MAC地址来进行攻击，后者常常被称为ARP欺骗。 解决方法：  交换机配置802.1x协议，需要对用户进行授权和登录。 建立静态ARP协议表（不建议）。  IP协议 容易被监听、窃取：加密传输。 恶意篡改：完整性检测机制。 ip欺骗攻击（即更改source ip）：源地址鉴别机制。 ip分段重组"><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/img/og_image.png"><meta property="article:published_time" content="2020-06-30T19:12:39.000Z"><meta property="article:modified_time" content="2022-03-30T22:56:24.869Z"><meta property="article:author" content="John Doe"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2020/06/30/Protocols/"},"headline":"Protocols'","image":["http://example.com/img/og_image.png"],"datePublished":"2020-06-30T19:12:39.000Z","dateModified":"2022-03-30T22:56:24.869Z","author":{"@type":"Person","name":"John Doe"},"publisher":{"@type":"Organization","name":"Hexo","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"[TOC] 网际层ARP协议通常ARP的攻击是只针对内网主机的，可以通过伪造内网ip和欺骗内网主机的目的MAC地址来进行攻击，后者常常被称为ARP欺骗。 解决方法：  交换机配置802.1x协议，需要对用户进行授权和登录。 建立静态ARP协议表（不建议）。  IP协议 容易被监听、窃取：加密传输。 恶意篡改：完整性检测机制。 ip欺骗攻击（即更改source ip）：源地址鉴别机制。 ip分段重组"}</script><link rel="canonical" href="http://example.com/2020/06/30/Protocols/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+          Array
+              .from(document.querySelectorAll('.tab-content'))
+              .forEach($tab => {
+                  $tab.classList.add('is-hidden');
+              });
+          Array
+              .from(document.querySelectorAll('.tabs li'))
+              .forEach($tab => {
+                  $tab.classList.remove('is-active');
+              });
+          const $activeTab = document.querySelector(location.hash);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+          const $tabMenu = document.querySelector(`a[href="${location.hash}"]`);
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2020-06-30T19:12:39.000Z" title="6/30/2020, 9:12:39 PM">2020-06-30</time></span><span class="level-item">Updated&nbsp;<time dateTime="2022-03-30T22:56:24.869Z" title="3/31/2022, 12:56:24 AM">2022-03-31</time></span><span class="level-item">18 minutes read (About 2667 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">Protocols&#039;</h1><div class="content"><p>[TOC]</p>
+<h2 id="网际层"><a href="#网际层" class="headerlink" title="网际层"></a>网际层</h2><h3 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h3><p>通常ARP的攻击是只针对内网主机的，可以通过伪造内网ip和欺骗内网主机的目的MAC地址来进行攻击，后者常常被称为ARP欺骗。</p>
+<p>解决方法：</p>
+<ul>
+<li>交换机配置802.1x协议，需要对用户进行授权和登录。</li>
+<li>建立静态ARP协议表（不建议）。</li>
+</ul>
+<h3 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h3><ol>
+<li>容易被监听、窃取：加密传输。</li>
+<li>恶意篡改：完整性检测机制。</li>
+<li>ip欺骗攻击（即更改source ip）：源地址鉴别机制。</li>
+<li>ip分段重组中在包过滤器注入大量病态小数据报：防火墙能够重组分段的IP数据包，以检查其内容。</li>
+<li>定向目的地址（比如广播）：部分路由器可以组织某些特殊的destination ip address。</li>
+</ol>
+<h3 id="ICMP协议"><a href="#ICMP协议" class="headerlink" title="ICMP协议"></a>ICMP协议</h3><p>ICMP是一个重要的错误处理和信息处理协议。通知到底目的地的最佳路由，路由故障或者因网络故障终端某个连接。（ping , tracert)。</p>
+<p>主要存在攻击如下：</p>
+<ol>
+<li><p>重定向攻击。</p>
+<p><strong>ICMP 重定向消息</strong>：如果路由器发现发送端主机使用次优的路径发送数据时，那么它会返回一个 ICMP 重定向消息给这个主机，这个消息包含了最合适的路由信息和源数据。主要发生在路由器持有更好的路由信息的情况下，路由器会通过这个 ICMP 重定向消息给发送端主机一个更合适的发送路由。</p>
+<p>实验代码参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1396117">https://cloud.tencent.com/developer/article/1396117</a></p>
+</li>
+<li><p>路由发现攻击。由于应答时不对应答方进行身份印证，黑客又可能冒充路由器伪造路由信息。</p>
+</li>
+<li><p>防火墙穿越攻击。攻击者通过获取某个防火墙的规则集和访问控制列表。</p>
+</li>
+</ol>
+<h3 id="IGMP协议"><a href="#IGMP协议" class="headerlink" title="IGMP协议"></a>IGMP协议</h3><p>ip组播管理协议。IGMP组播报文在IP数据包的基础上封装了组播地址等信息，鉴于组播报文基于<strong>UDP</strong>进行传输并且缺少用户认证措施，网络中任何主机都可以向组播路由器发送IGMP包，请求加入或者离开，导致非法用户很容易加入组播组。主要攻击有以下几种：</p>
+<ol>
+<li><p>利用查询报文攻击。</p>
+</li>
+<li><p>离开报文进行DOS攻击。</p>
+<p>通常使用IGMP v3解决上述问题。</p>
+</li>
+</ol>
+<h3 id="RIP协议"><a href="#RIP协议" class="headerlink" title="RIP协议"></a>RIP协议</h3><p> RIPv1采用UDP协议进行传输，RIPv2的分组格式中包含了一个选项可以设置16个字符的明文加密字符串或者对MD5杂凑值的签名。虽然RIP报文很容易伪造，但是RIPv2对签名与认证是的欺骗的操作难度大大提高。</p>
+<h3 id="OSPF协议"><a href="#OSPF协议" class="headerlink" title="OSPF协议"></a>OSPF协议</h3><p>OSPF的报文中包含中·认证类型以及认证数据字段，其中主要密码认证、空认证以及明文认证3中认证模式。</p>
+<p>在OSPF中，欺骗会得到扩散。</p>
+<h3 id="BGP协议"><a href="#BGP协议" class="headerlink" title="BGP协议"></a>BGP协议</h3><p>BG缺乏一种可靠的路由认证机制。通常通过两类方案解决：</p>
+<p>路由认证类方案（数字证书、签名和其他密码学技术）：</p>
+<ol>
+<li>针对劫持BGP TCP会话的MD5 BGP 认证技术。</li>
+<li>S-BGP方案利用PKI技术增强BGP的安全性。</li>
+</ol>
+<p>前缀劫持检测类方案：</p>
+<ol>
+<li>多源AS检测技术。</li>
+<li>主动探测技术。</li>
+</ol>
+<h2 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h2><h3 id="UDP协议"><a href="#UDP协议" class="headerlink" title="UDP协议"></a>UDP协议</h3><p>DoS攻击是一种最常见的UDP攻击，而UDP Flood攻击又是DoS攻击中最普遍的流量型攻击。</p>
+<p> 原理：UDP Flood主要通过利用服务器响应发送到其中一个端口的UDP数据包所采取的步骤。在正常情况下，当服务器在特定端口接收到UDP数据包时，会经过两个步骤。1. 服务器首先检查是否正在运行正在侦听指定端口的请求的程序。2. 如果没有程序在该端口接收数据包，则服务器使用ICMP（ping）数据包进行响应，以通知发送方目的地不可达。</p>
+<p> 实现的参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/hwhaocool/article/details/29919267?utm_medium=distribute.pc_relevant.none-task-blog-baidujs-1">https://blog.csdn.net/hwhaocool/article/details/29919267?utm_medium=distribute.pc_relevant.none-task-blog-baidujs-1</a></p>
+<h3 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h3><p>三类攻击：</p>
+<ol>
+<li><p>针对TCP连接建立阶段的三次握手过程。最常见的就是SYN FLOOD攻击：</p>
+<p><em>攻击者发送大量的SYN包，服务器回应(SYN+ACK)包，但是攻击者不回应ACK包，这样的话，服务器不知道(SYN+ACK)是否发送成功，默认情况下会重试5次（tcp_syn_retries）。这样的话，对于服务器的内存，带宽都有很大的消耗。攻击者如果处于公网，可以伪造IP的话，对于服务器就很难根据IP来判断攻击者，给防护带来很大的困难。</em></p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/sunsky303/p/11811097.html">https://www.cnblogs.com/sunsky303/p/11811097.html</a></p>
+</li>
+<li><p>针对TCP协议不对数据包进行加密和认证的漏洞，进行TCP会话劫持攻击。攻击者通过猜测序列号来伪造合法（在有效接收窗口内的）报文。</p>
+</li>
+<li><p>针对TCP拥塞控制机制的特性。</p>
+</li>
+</ol>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><h3 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h3><p>数据直接通过明文进行传输，有较大的安全缺陷。此外HTTP协议唯一的完整性检测就是在报文头部包含买了数据传输长度，而没有对数据传输内容进行完整性检测。</p>
+<p>HTTPS协议增加了TCP和HTTP之间的安全层，主要用SSL和TLS实现。</p>
+<h3 id="DNS协议"><a href="#DNS协议" class="headerlink" title="DNS协议"></a>DNS协议</h3><p>\1) 域名劫持</p>
+<p>　　通过采用黑客手段控制了域名管理密码和域名管理邮箱，然后将该域名的NS纪录指向到黑客可以控制的DNS服务器，然后通过在该DNS服务器上添加相应域名纪录，从而使网民访问该域名时，进入了黑客所指向的内容。</p>
+<p>　　这显然是DNS服务提供商的责任，用户束手无策。</p>
+<p>　　2) 缓存投毒</p>
+<p>　　利用控制DNS缓存服务器，把原本准备访问某网站的用户在不知不觉中带到黑客指向的其他网站上。其实现方式有多种，比如可以通过利用网民ISP端的DNS缓存服务器的漏洞进行攻击或控制，从而改变该ISP内的用户访问域名的响应结果;或者，黑客通过利用用户权威域名服务器上的漏洞，如当用户权威域名服务器同时可以被当作缓存服务器使用，黑客可以实现缓存投毒，将错误的域名纪录存入缓存中，从而使所有使用该缓存服务器的用户得到错误的DNS解析结果。</p>
+<p>　　最近发现的DNS重大缺陷，就是这种方式的。只所以说是“重大”缺陷，据报道是因为是协议自身的设计实现问题造成的，几乎所有的DNS软件都存在这样的问题。</p>
+<p>　　3)DDOS攻击</p>
+<p>　　一种攻击针对DNS服务器软件本身，通常利用BIND软件程序中的漏洞，导致DNS服务器崩溃或拒绝服务;另一种攻击的目标不是DNS服务器，而是利用DNS服务器作为中间的“攻击放大器”，去攻击其它互联网上的主机，导致被攻击主机拒绝服务。</p>
+<p>　　4) DNS欺骗</p>
+<p>　　DNS欺骗就是攻击者冒充域名服务器的一种欺骗行为。</p>
+<p>　　原理：如果可以冒充域名服务器，然后把查询的IP地址设为攻击者的IP地址，这样的话，用户上网就只能看到攻击者的主页，而不是用户想要取得的网站的主页了，这就是DNS欺骗的基本原理。DNS欺骗其实并不是真的“黑掉”了对方的网站，而是冒名顶替、招摇撞骗罢了。</p>
+<p>　　现在的Internet上存在的DNS服务器有绝大多数都是用bind来架设的,使用的bind版本主要为bind 4.9.5+P1以前版本和bind 8.2.2-P5以前版本.这些bind有个共同的特点,就是BIND会缓存(Cache)所有已经查询过的结果,这个问题就引起了下面的几个问题的存在.</p>
+<h3 id="TELNET协议"><a href="#TELNET协议" class="headerlink" title="TELNET协议"></a>TELNET协议</h3><p>TELNET协议是一种明文协议，明文传输用户的通信内容，包括用户名和密码。主要有两类安全问题：</p>
+<ol>
+<li>攻击者可以通过sniffer监听会话。</li>
+<li>主动攻击，比如在认证完成后旋盖或者插入一些命令。</li>
+</ol>
+<h3 id="SSH协议"><a href="#SSH协议" class="headerlink" title="SSH协议"></a>SSH协议</h3><p>安全壳（Secure Shell）协议是一种在不安全的网络上建立安全的远程登录或者其他安全网络服务的协议.SSH对所有传输的数据使用RSA公钥加密算法进行处理。</p>
+<p>SSH协议框架中最主要的部分是三个协议：</p>
+<ul>
+<li>传输层协议（The Transport Layer Protocol）提供服务器认证，数据机密性，信息完整性等的支持</li>
+<li>用户认证协议（The User Authentication Protocol） 则为服务器提供客户端的身份鉴别</li>
+<li>连接协议（The Connection Protocol） 将加密的信息隧道复用成若干个逻辑通道，提供给更高层的应用协议使用； 各种高层应用协议可以相对地独立于SSH基本体系之外，并依靠这个基本框架，通过连接协议使用SSH的安全机制。</li>
+</ul>
+<p>存在的问题：</p>
+<ol>
+<li>服务器认证。</li>
+<li>协议版本协商。</li>
+<li>主机密钥文件安全。</li>
+</ol>
+<h3 id="SMTP协议"><a href="#SMTP协议" class="headerlink" title="SMTP协议"></a>SMTP协议</h3><h3 id="MIME协议"><a href="#MIME协议" class="headerlink" title="MIME协议"></a>MIME协议</h3><h3 id="POP3协议"><a href="#POP3协议" class="headerlink" title="POP3协议"></a>POP3协议</h3><h3 id="IMAP4协议"><a href="#IMAP4协议" class="headerlink" title="IMAP4协议"></a>IMAP4协议</h3><h3 id="PGP协议"><a href="#PGP协议" class="headerlink" title="PGP协议"></a>PGP协议</h3><h3 id="FTP协议"><a href="#FTP协议" class="headerlink" title="FTP协议"></a>FTP协议</h3><h3 id="TFTP协议"><a href="#TFTP协议" class="headerlink" title="TFTP协议"></a>TFTP协议</h3><h3 id="NSF协议"><a href="#NSF协议" class="headerlink" title="NSF协议"></a>NSF协议</h3><h3 id="SNMP协议"><a href="#SNMP协议" class="headerlink" title="SNMP协议"></a>SNMP协议</h3><h3 id="DHCP协议"><a href="#DHCP协议" class="headerlink" title="DHCP协议"></a>DHCP协议</h3><h3 id="SIP协议"><a href="#SIP协议" class="headerlink" title="SIP协议"></a>SIP协议</h3><h3 id="NTP协议"><a href="#NTP协议" class="headerlink" title="NTP协议"></a>NTP协议</h3><h3 id="FINGER协议"><a href="#FINGER协议" class="headerlink" title="FINGER协议"></a>FINGER协议</h3><h3 id="Whois协议"><a href="#Whois协议" class="headerlink" title="Whois协议"></a>Whois协议</h3><h3 id="LDAP协议"><a href="#LDAP协议" class="headerlink" title="LDAP协议"></a>LDAP协议</h3><h3 id="NNTP协议"><a href="#NNTP协议" class="headerlink" title="NNTP协议"></a>NNTP协议</h3><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>《网络安全：技术与实践》 清华出版社</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Protocols&#039;</p><p><a href="http://example.com/2020/06/30/Protocols/">http://example.com/2020/06/30/Protocols/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>John Doe</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2020-06-30</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2022-03-31</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2022/03/30/writeups/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">writeups&#039;</span></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.sucrecafe.com/wp-content/uploads/2020/06/pusheen-laptop.jpg" alt="Maltose"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Maltose</p><p class="is-size-6 is-block">Interested in Crytography.</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Beijing, China</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories"><p class="title">0</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tag</p><a href="/tags"><p class="title">1</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/idyllicwanderings" target="_blank" rel="noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/idyllicwanderings"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="subscribe-email"><div class="card-content"><div class="menu"><h3 class="menu-label">Subscribe for updates</h3><form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open(&#039;https://feedburner.google.com/fb/a/mailverify?uri=&#039;,&#039;popupwindow&#039;,&#039;scrollbars=yes,width=550,height=520&#039;);return true"><input type="hidden" value="" name="uri"><input type="hidden" name="loc" value="en_US"><div class="field has-addons"><div class="control has-icons-left is-expanded"><input class="input" name="email" type="email" placeholder="Email"><span class="icon is-small is-left"><i class="fas fa-envelope"></i></span></div><div class="control"><input class="button" type="submit" value="Subscribe"></div></div></form></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 is-sticky"><!--!--><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-07-01T19:14:24.000Z">2022-07-01</time></p><p class="title"><a href="/2022/07/01/Crytography/">Crytography&#039;</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-30T22:47:16.000Z">2022-03-31</time></p><p class="title"><a href="/2022/03/31/test/">test</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-30T22:44:55.310Z">2022-03-31</time></p><p class="title"><a href="/2022/03/31/hello-world/">Hello World</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-30T19:24:28.000Z">2022-03-30</time></p><p class="title"><a href="/2022/03/30/Lattice%20Cryptography/">Lattice</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-03-30T19:17:35.000Z">2022-03-30</time></p><p class="title"><a href="/2022/03/30/Space/">Space&#039;</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2022/07/"><span class="level-start"><span class="level-item">July 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2022/03/"><span class="level-start"><span class="level-item">March 2022</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/06/"><span class="level-start"><span class="level-item">June 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/reverse-engineering/"><span class="tag">reverse engineering</span><span class="tag">1</span></a></div></div></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="is-size-7"><span>&copy; 2022 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
